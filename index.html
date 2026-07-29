@@ -1,1 +1,53 @@
-<h1>My First Project</h1>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Live Network Packet Monitoring Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Authorized local monitoring</p>
+      <h1>Live Network Packet Monitoring Dashboard</h1>
+    </div>
+    <div class="capture-controls">
+      <select id="interfaceSelect" aria-label="Network interface"></select>
+      <button id="startBtn" class="primary">Start</button>
+      <button id="stopBtn">Stop</button>
+    </div>
+  </header>
+  <main>
+    <section class="status-strip">
+      <div><span>Status</span><strong id="captureStatus">Stopped</strong></div>
+      <div><span>Interface</span><strong id="activeInterface">Default</strong></div>
+      <div><span>Packets</span><strong id="totalPackets">0</strong></div>
+      <div><span>Bytes</span><strong id="totalBytes">0</strong></div>
+    </section>
+    <section class="filters">
+      <input id="ipFilter" type="search" placeholder="Filter by IP address">
+      <select id="protocolFilter"><option value="">All protocols</option><option value="TCP">TCP</option><option value="UDP">UDP</option><option value="ICMP">ICMP</option></select>
+      <input id="portFilter" type="number" min="1" max="65535" placeholder="Port">
+      <select id="serviceFilter"><option value="">All services</option><option value="HTTP">HTTP</option><option value="HTTPS">HTTPS</option><option value="FTP">FTP</option><option value="MySQL">MySQL</option><option value="Other">Other</option></select>
+      <button id="clearFilters">Clear</button>
+    </section>
+    <section class="dashboard-grid">
+      <div class="panel traffic-panel">
+        <div class="panel-heading"><h2>Live Packet Table</h2><span id="packetCountLabel">0 shown</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Time</th><th>Direction</th><th>Source IP</th><th>Source Port</th><th>Destination IP</th><th>Destination Port</th><th>Protocol</th><th>Service</th><th>Size</th></tr></thead><tbody id="packetRows"></tbody></table></div>
+      </div>
+      <aside class="side-column">
+        <div class="panel"><div class="panel-heading"><h2>Service Split</h2></div><div id="serviceStats" class="stat-list"></div></div>
+        <div class="panel"><div class="panel-heading"><h2>Directions</h2></div><div id="directionStats" class="stat-list"></div></div>
+      </aside>
+    </section>
+    <section class="panel">
+      <div class="panel-heading"><h2>Connected Devices</h2><button id="refreshDevices">Refresh</button></div>
+      <div class="table-wrap"><table><thead><tr><th>IP Address</th><th>MAC Address</th><th>Hostname / Device Name</th><th>Source</th></tr></thead><tbody id="deviceRows"></tbody></table></div>
+    </section>
+    <p id="message" class="message"></p>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
